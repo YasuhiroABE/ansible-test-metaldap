@@ -1,0 +1,16 @@
+
+dn: olcDatabase=meta,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcMetaConfig
+olcDatabase: meta
+olcSuffix: {{ metaldap_basedn_prefix }},{{ metaldap_basedn_suffix }}
+olcAccess: to * by * read
+
+{% for meta in metaldap_metatarget_items %}
+dn: olcMetaSub={{ "{" }}{{ meta['index'] }}{{ "}" }}uri,olcDatabase={{ "{" }}{{ metaldap_metadb_index }}{{ "}" }}meta,cn=config
+objectClass: olcMetaTargetConfig
+olcMetaSub: {{ "{" }}{{ meta['index'] }}{{ "}" }}uri
+olcDbURI: {{ meta['dburi'] }}/{{ meta['suffix'] }},{{ metaldap_basedn_prefix }},{{ metaldap_basedn_suffix }}
+olcDbRewrite: {{ "{" }}0{{ "}" }}suffixmassage "{{ meta['suffix'] }},{{ metaldap_basedn_prefix }},{{ metaldap_basedn_suffix }}" "{{ meta['suffix'] }},{{ metaldap_basedn_suffix }}"
+
+{% endfor %}

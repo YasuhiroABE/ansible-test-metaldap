@@ -1,0 +1,41 @@
+---
+# defaults file for ansible-test-metaldap
+
+metaldap_init: true
+metaldap_removal_filepath:
+  - '/var/lib/ldap/data.mdb'
+  - '/var/lib/ldap/lock.mdb'
+  - "{{ metaldap_basedn_dbdirectory }}"
+  
+metaldap_add_dirinfo:
+  - { path: "{{ metaldap_basedn_dbdirectory }}", owner: 'openldap', group: 'openldap', mode: '0750' }
+
+metaldap_additional_schema:
+  - ppolicy
+
+metaldap_ldapadd_cn_config_files:
+  - metaldap_01_add_modules.ldif
+  - metaldap_02_create_metadb.ldif
+
+metaldap_ldapadd_backenddb_files: []
+
+metaldap_copy_ldif_files:
+  - metaldap_01_add_modules.ldif
+  - metaldap_02_create_metadb.ldif
+
+metaldap_copy_ldif_perms:
+  owner: root
+  group: root
+  mode: '0600'
+  
+metaldap_basedn_suffix: "dc=example,dc=com"
+metaldap_basedn_prefix: "ou=proxy"
+metaldap_cn_admin_dnprefix: "cn=admin"
+metaldap_cn_admin_password: "transpasswd"
+metaldap_basedn_dbdirectory: "/var/lib/ldap/metaproxy"
+
+## using in metaldap_02_create_metadb.ldif
+metaldap_metadb_index: 1
+metaldap_metatarget_items:
+  - { index: 0, suffix: "ou=people", dburi: "ldap://transldap.example.com:389/ }}" }
+  - { index: 1, suffix: "ou=group", dburi: "ldap://transldap.example.com:389/ }}" }
