@@ -88,7 +88,7 @@ Following vars entries need to be configured for your environment.
 
     - hosts: all
       vars:
-        metaldap_basedn_suffix: "dc=u-aizu,dc=ac,dc=jp"
+        metaldap_basedn_suffix: "dc=example,dc=org"
         metaldap_basedn_prefix: "ou=proxy"
         metaldap_metatarget_items:
           - { index: 0, suffix: "ou=People", dburi: "ldap://transldap.example.com:389" }
